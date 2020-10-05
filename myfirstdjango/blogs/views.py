@@ -192,17 +192,16 @@ def apipostget(request):
 
 @csrf_exempt
 def apipostpost(request):
-    a = User(name="soku",email="soku@kosu.com")
-    a.save()
+    post_user = request.POST['username']
+    post_topic = request.POST['topic']
+    a = get_object_or_404(User, name = post_user)
     b = Post(topic="mytoppic",date=datetime.date.today,user_id=a)
     b.save()
-    c = Comment(comment="5555566665",date="66666",post_id=b,user_id=a)
-    c.save()
     return JsonResponse({"status":"Ok"})
         
 def apipostupdate(request):
     # post.save()
-    posts = Post.objects.filter(header="5555566665").delete()
+    # posts = Post.objects.filter(header="5555566665").delete()
     # Post.objects.get(header="555555").delete()
     # post_list = serializers.serialize('json', posts)
     # Post.save()
@@ -245,26 +244,22 @@ def apicommentget(request):
 
 @csrf_exempt
 def apicommentpost(request):
-    a = User(name="soku",email="soku@kosu.com")
-    a.save()
-    b = Post(topic="mytoppic",date=datetime.date.today,user_id=a)
-    b.save()
-    c = Comment(comment="5555566665",date="66666",post_id=b,user_id=a)
+    post_id = request.POST['id']
+    a = get_object_or_404(Post, id = post_id)
+    b = get_object_or_404(User, id = a.user_id.id)
+    c = Comment(comment="5555566665",date="66666",post_id=a,user_id=b)
     c.save()
     return JsonResponse({"status":"Ok"})
         
 def apicommentupdate(request):
-    # post.save()
-    posts = Post.objects.filter(header="5555566665").delete()
-    # Post.objects.get(header="555555").delete()
-    # post_list = serializers.serialize('json', posts)
-    # Post.save()
+    # Comment.save()
+    # coment = Comment.objects.filter(header="5555566665").delete()
     return JsonResponse({"aaa":"sssss"})
         
 def apicommentdelete(request):
-    # post.save()
-    posts = Post.objects.filter(header="5555566665").delete()
-    # Post.objects.get(header="555555").delete()
-    # post_list = serializers.serialize('json', posts)
-    # Post.save()
+    # Comment.save()
+    # comment = Post.objects.filter(header="5555566665").delete()
+    # Comment.objects.get(header="555555").delete()
+    # post_list = serializers.serialize('json', comment)
+    # Comment.save()
     return JsonResponse({"aaa":"sssss"})
